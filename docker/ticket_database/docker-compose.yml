@@ -1,0 +1,19 @@
+services:
+  postgres14:
+    container_name: ticket_postgres
+    image: postgres:17.4-bullseye
+    restart: unless-stopped
+    ports:
+      - $ENV_POSTGRES_PORT:5432
+    environment:
+      - POSTGRES_USER=$ENV_POSTGRES_USER
+      - POSTGRES_PASSWORD=$ENV_POSTGRES_PWD
+      - POSTGRES_DB=$ENV_POSTGRES_DB
+
+  redis7:
+    container_name: ticket_redis
+    image: redis:7.4.2-alpine
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass $ENV_REDIS_PWD
+    ports:
+      - $ENV_REDIS_PORT:6379
